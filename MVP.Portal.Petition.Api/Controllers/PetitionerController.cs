@@ -18,6 +18,9 @@ public class PetitionerController(IPetitionerService petitionerService) : Contro
             return BadRequest("Invalid user ID");
 
         var personalInfo = await petitionerService.GetPetitionerPersonalInfoByIdAsync(id);
+        if(personalInfo == null)
+            return NotFound($"Petitioner with ID {id} not found");
+
         return Ok(personalInfo);
     }
 

@@ -8,7 +8,10 @@ public class PetitionerService(IPetitionerRepository petitionerRepo) : IPetition
 {
     public async Task<PetitionerPersonalInfoResponse> GetPetitionerPersonalInfoByIdAsync(int id)
     {
-        PetitionerPersonalInfo personalInfo = await petitionerRepo.GetPetitionerPersonalInfoByIdAsync(id);
+        var personalInfo = await petitionerRepo.GetPetitionerPersonalInfoByIdAsync(id);
+
+        if(personalInfo == null)
+            return null;
 
         var response = new PetitionerPersonalInfoResponse
         {

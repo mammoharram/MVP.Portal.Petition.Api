@@ -16,7 +16,24 @@ public class PetitionerRepository : IPetitionerRepository
 
     public Task<IEnumerable<PetitionerPersonalInfo>> GetAllPetitionersPersonalInfoAsync()
     {
-        var personalInfoList = new List<PetitionerPersonalInfo>
+        List<PetitionerPersonalInfo> personalInfoList = PetitionerDataSet();
+        return Task.FromResult<IEnumerable<PetitionerPersonalInfo>>(personalInfoList);
+    }
+
+
+    public Task<PetitionerPersonalInfo> GetPetitionerPersonalInfoByIdAsync(int id)
+    { 
+        var personalInfoList = PetitionerDataSet().FirstOrDefault(p => p.Id == id);
+        return Task.FromResult(personalInfoList);
+    }
+
+    public Task<PetitionerPersonalInfo> UpdatePetitionerPersonalInfoAsync(int id, PetitionerPersonalInfo personalInfo)
+    {
+        return Task.FromResult(personalInfo);
+    }
+    private static List<PetitionerPersonalInfo> PetitionerDataSet()
+    {
+        return new List<PetitionerPersonalInfo>
         {
             new()
             {
@@ -72,26 +89,6 @@ public class PetitionerRepository : IPetitionerRepository
                 HomeAddress = "202 Maple Dr, Anytown, New Zealand"
             }
         };
-        return Task.FromResult<IEnumerable<PetitionerPersonalInfo>>(personalInfoList);
     }
 
-    public Task<PetitionerPersonalInfo> GetPetitionerPersonalInfoByIdAsync(int id)
-    { 
-        return Task.FromResult(new PetitionerPersonalInfo
-        {
-            Id = id,
-            FirstName = "John",
-            LastName = "Doe",
-            DateOfBirth = new DateOnly(1990, 1, 1),
-            CountryOfBirth = "USA",
-            Phone = "123-456-7890",
-            Email = "john.doe@example.com",
-            HomeAddress = "123 Main St, Anytown, USA"
-        });
-    }
-
-    public Task<PetitionerPersonalInfo> UpdatePetitionerPersonalInfoAsync(int id, PetitionerPersonalInfo personalInfo)
-    {
-        return Task.FromResult(personalInfo);
-    }
 }
